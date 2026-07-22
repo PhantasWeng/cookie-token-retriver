@@ -1,0 +1,259 @@
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f4f5f7;
+  --border: #e3e5e9;
+  --text: #1c1e21;
+  --text-soft: #6b7280;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --star: #f59e0b;
+  --accent-bg: #fff7e6;
+  --accent-border: #fcd77f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1f2124;
+    --bg-soft: #2a2d31;
+    --border: #3a3d42;
+    --text: #e6e8eb;
+    --text-soft: #9aa0a6;
+    --primary: #4f8cff;
+    --primary-hover: #6ba0ff;
+    --star: #f5b83d;
+    --accent-bg: #33301f;
+    --accent-border: #6b5a1e;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 380px;
+  font-family: -apple-system, "Segoe UI", "Noto Sans TC", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.site { display: flex; flex-direction: column; overflow: hidden; }
+.site-label { font-size: 10px; color: var(--text-soft); text-transform: uppercase; letter-spacing: .5px; }
+.site-host { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  line-height: 1;
+}
+.icon-btn:hover { background: var(--bg-soft); color: var(--text); }
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+#search {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font-size: 13px;
+}
+#search:focus { outline: none; border-color: var(--primary); }
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--primary); }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+
+.list {
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 6px 6px 14px;
+}
+/* 捲軸配色跟著主題（變數在深色模式會翻轉） */
+.list::-webkit-scrollbar { width: 10px; }
+.list::-webkit-scrollbar-track { background: transparent; }
+.list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+  border: 2px solid var(--bg);
+}
+.list::-webkit-scrollbar-thumb:hover { background: var(--text-soft); }
+
+.section-label {
+  font-size: 10px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 8px 6px 4px;
+}
+
+.domain-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 6px 6px 2px 8px;
+}
+
+.watch-note {
+  font-size: 10px;
+  color: var(--text-soft);
+  padding: 4px 8px 2px;
+  word-break: break-all;
+}
+
+/* 可收折區塊標題：追蹤區與瀏覽區共用 */
+.section-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  padding: 9px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.section-toggle:hover { background: var(--bg-soft); }
+.section-toggle .tw { font-size: 10px; color: var(--text-soft); width: 10px; text-align: center; }
+.section-toggle .cnt { margin-left: auto; color: var(--text-soft); font-weight: 500; }
+/* 「全部 cookie」與上方追蹤區的分隔，讓它更醒目、不貼邊 */
+.section-toggle.sep {
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  margin-top: 12px;
+  padding-top: 14px;
+}
+
+.cookie.missing { opacity: .6; }
+.cookie.missing .cookie-value { font-style: italic; }
+
+/* cookie 列：無邊框，靠間距與 hover 區隔；追蹤中的以淡色底強調。整張可點擊複製。 */
+.cookie {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  margin: 3px 0;
+  background: transparent;
+}
+.cookie.copyable { cursor: pointer; }
+.cookie.missing { cursor: default; }
+.cookie:hover { background: var(--bg-soft); }
+/* 追蹤狀態改用實心星星辨識，不再用底色（整區都追蹤時底色反而無區別度） */
+/* 複製成功的短暫回饋（用內框綠線） */
+.cookie.flash { box-shadow: inset 0 0 0 2px #16a34a; }
+
+.cookie-body { flex: 1; min-width: 0; }
+
+.cookie-label { font-weight: 600; font-size: 13px; line-height: 1.4; word-break: break-all; }
+/* Cookie 名稱：有自訂名稱時作為次要資訊；無自訂名稱時（.solo）升為主要 */
+.cookie-name { font-size: 11px; color: var(--text-soft); line-height: 1.4; word-break: break-all; }
+.cookie-name.solo { font-weight: 600; font-size: 13px; color: var(--text); }
+.cookie-label + .cookie-name { margin-top: 3px; }
+
+.cookie-value {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-top: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cookie-meta { font-size: 10px; color: var(--text-soft); margin-top: 7px; }
+.cookie-meta .tag {
+  display: inline-block;
+  background: var(--bg-soft);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 5px;
+}
+
+/* 星星（規則）：右上角小按鈕、無邊框 */
+.btn-star {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--text-soft);
+  line-height: 0;
+  border-radius: 6px;
+}
+.btn-star svg { width: 12px; height: 12px; display: block; }
+.btn-star:hover { color: var(--text); background: var(--bg-soft); }
+.btn-star.tracked { color: var(--star); }
+
+/* 找不到 cookie 時的「前往登入」按鈕：卡片右下角，實心強調 */
+.btn-login {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.btn-login:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+
+.empty {
+  text-align: center;
+  color: var(--text-soft);
+  padding: 30px 16px;
+  line-height: 1.6;
+}
+
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  z-index: 10;
+}

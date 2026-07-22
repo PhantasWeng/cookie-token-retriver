@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title data-i18n="options_title">Cookie Token Retriever Settings</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Noto Sans TC", system-ui, sans-serif;
+      max-width: 640px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #1c1e21;
+    }
+    @media (prefers-color-scheme: dark) { body { color: #e6e8eb; background: #1f2124; } }
+    h1 { font-size: 20px; }
+    p { color: #6b7280; }
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 12px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 13px;
+      border: 1px solid #d0d3d8;
+      border-radius: 10px;
+      background: transparent;
+      color: inherit;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .row { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    button.secondary { background: transparent; color: #2563eb; border: 1px solid #2563eb; }
+    button.secondary:hover { background: rgba(37,99,235,.08); }
+    select {
+      padding: 7px 10px;
+      font-size: 14px;
+      border: 1px solid #d0d3d8;
+      border-radius: 8px;
+      background: transparent;
+      color: inherit;
+    }
+    @media (prefers-color-scheme: dark) { select { border-color: #3a3d42; } select option { color: #1c1e21; } }
+    label { font-size: 13px; color: #6b7280; }
+    #status, #status-io { font-size: 13px; }
+    code { background: rgba(127,127,127,.15); padding: 1px 6px; border-radius: 4px; }
+
+    .group {
+      border: 1px solid #d0d3d8;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    @media (prefers-color-scheme: dark) { .group { border-color: #3a3d42; } }
+
+    /* 帶常駐標籤的欄位 */
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field > label { font-size: 11px; color: #6b7280; font-weight: 600; }
+    .field input {
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid #d0d3d8;
+      border-radius: 8px;
+      background: transparent;
+      color: inherit;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+    }
+    @media (prefers-color-scheme: dark) { .field input { border-color: #3a3d42; } }
+    .field input:focus { outline: none; border-color: #2563eb; }
+
+    /* 網域＝群組標題（比 cookie 清單高一層） */
+    .group-header { display: flex; align-items: flex-end; gap: 10px; }
+    .field-domain { flex: 1; }
+    .group-domain { font-size: 15px; font-weight: 700; }
+
+    /* cookie 清單：縮排 + 左側線，視覺上隸屬於上方網域 */
+    .group-body {
+      margin: 14px 0 0 3px;
+      padding-left: 14px;
+      border-left: 2px solid #e3e5e9;
+    }
+    @media (prefers-color-scheme: dark) { .group-body { border-left-color: #3a3d42; } }
+
+    .group-del, .rule-del {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      background: transparent;
+      color: #dc2626;
+      border: 1px solid #dc2626;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .group-del:hover, .rule-del:hover { background: rgba(220,38,38,.1); }
+    .group-del svg, .rule-del svg { width: 16px; height: 16px; display: block; }
+
+    .rules { display: flex; flex-direction: column; }
+    .rule { padding: 14px 0; border-top: 1px dashed #d0d3d8; }
+    @media (prefers-color-scheme: dark) { .rule { border-top-color: #3a3d42; } }
+    .rule:first-child { border-top: none; padding-top: 0; }
+    .rule-top { display: flex; gap: 10px; align-items: flex-end; }
+    .field-cookie, .field-name { flex: 1; }
+    .field-login { margin-top: 10px; }
+    .rule-add { margin-top: 12px; padding: 7px 14px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="row" style="justify-content:flex-end;margin-top:0;">
+    <label for="lang" data-i18n="opt_lang_h1">Language</label>
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+    </select>
+  </div>
+
+  <h1 data-i18n="opt_rules_h1">Tracked Cookies (grouped by domain)</h1>
+  <p data-i18n-html="opt_rules_desc"></p>
+  <div id="groups"></div>
+  <div class="row">
+    <button id="add-group" class="secondary" data-i18n="opt_add_group">+ Add domain</button>
+    <button id="save" data-i18n="save">Save</button>
+    <span id="status"></span>
+  </div>
+
+  <h1 style="margin-top:40px;" data-i18n="opt_io_h1">Backup</h1>
+  <p data-i18n-html="opt_io_desc"></p>
+  <div class="row">
+    <button id="export-rules" class="secondary" data-i18n="opt_export">Export rules</button>
+    <button id="import-rules" class="secondary" data-i18n="opt_import">Import rules</button>
+    <input id="import-file" type="file" accept="application/json,.json" hidden />
+    <span id="status-io"></span>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

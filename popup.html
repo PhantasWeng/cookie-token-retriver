@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Cookie Token Retriever</title>
+</head>
+<body>
+  <header class="header">
+    <div class="site">
+      <span class="site-label" data-i18n="popup_current_tab">Current tab</span>
+      <span id="host" class="site-host" data-i18n="loading">Loading…</span>
+    </div>
+    <button id="options-btn" class="icon-btn" data-i18n-title="popup_options_title" title="Configure tracking rules">⚙</button>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" data-i18n-ph="popup_search_ph" placeholder="Filter cookie name or value…" autocomplete="off" />
+  </div>
+
+  <main id="list" class="list">
+    <div class="empty" data-i18n="loading">Loading…</div>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <template id="cookie-item">
+    <div class="cookie">
+      <div class="cookie-body">
+        <div class="cookie-label"></div>
+        <div class="cookie-name"></div>
+        <div class="cookie-value"></div>
+        <div class="cookie-meta"></div>
+      </div>
+      <button class="btn-star"></button>
+    </div>
+  </template>
+
+  <script src="i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

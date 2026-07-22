@@ -1,0 +1,10 @@
+{
+  "name": "cookie-token-retriever",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome 擴充功能：依網域追蹤並複製指定的 cookie / token。",
+  "scripts": {
+    "package": "node scripts/build.mjs",
+    "clean": "rm -f cookie-token-retriever-*.zip"
+  }
+}
