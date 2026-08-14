@@ -276,7 +276,8 @@ function matchesQuery(cookie, q) {
   if (!q) return true;
   return (
     cookie.name.toLowerCase().includes(q) ||
-    (cookie.value || "").toLowerCase().includes(q)
+    (cookie.value || "").toLowerCase().includes(q) ||
+    (cookie.domain || "").toLowerCase().includes(q)
   );
 }
 
@@ -354,7 +355,11 @@ function renderWatchlist(q) {
         const labelHit = it.label.toLowerCase().includes(q);
         const cookieHit = it.cookieName.toLowerCase().includes(q);
         const valHit = it.cookie && (it.cookie.value || "").toLowerCase().includes(q);
-        return labelHit || cookieHit || valHit;
+        // 網域可比對規則網域，也可比對實際抓到的 cookie 網域（可能是父網域）。
+        const domainHit =
+          domain.toLowerCase().includes(q) ||
+          (it.cookie && (it.cookie.domain || "").toLowerCase().includes(q));
+        return labelHit || cookieHit || valHit || domainHit;
       });
     if (!items.length) continue;
     els.list.appendChild(domainLabel(domain));

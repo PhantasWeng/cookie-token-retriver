@@ -31,7 +31,7 @@ const MESSAGES = {
     // popup
     popup_current_tab: "Current tab",
     popup_options_title: "Configure tracking rules",
-    popup_search_ph: "Filter cookie name or value…",
+    popup_search_ph: "Filter cookie name, value or domain…",
     popup_not_webpage: "(current tab is not a web page)",
     popup_cookie_count: "{host} · {n} cookies{suffix}",
     suffix_parent: " (incl. parent domain)",
@@ -104,7 +104,7 @@ const MESSAGES = {
     // popup
     popup_current_tab: "目前分頁",
     popup_options_title: "設定追蹤規則",
-    popup_search_ph: "篩選 cookie 名稱或值…",
+    popup_search_ph: "篩選 cookie 名稱、值或網域…",
     popup_not_webpage: "（目前分頁非網頁）",
     popup_cookie_count: "{host} · {n} 個 cookie{suffix}",
     suffix_parent: "（含父網域）",
