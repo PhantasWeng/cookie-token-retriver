@@ -56,7 +56,8 @@ popup 分成兩區：
 | `popup.html` / `popup.css` / `popup.js` | 點圖示跳出的主視窗 |
 | `options.html` / `options.js` | 追蹤規則（依網域分組）的設定頁 |
 | `icons/` | 外掛圖示 |
-| `package.json` / `scripts/build.mjs` | `yarn package` 打包腳本 |
+| `package.json` / `scripts/build.mjs` | `yarn package` 打包腳本，輸出至 `releases/` |
+| `releases/` | 各版本打包好的 zip |
 
 ## 權限說明
 

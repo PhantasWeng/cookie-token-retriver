@@ -1,7 +1,7 @@
 // 把擴充功能打包成可上架 / 分享的 zip（manifest.json 位於壓縮檔根目錄）。
 // 不依賴任何 npm 套件，使用系統的 `zip`。檔名自動帶上 manifest 的版本號。
 import { execFileSync } from "node:child_process";
-import { readFileSync, rmSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -21,8 +21,10 @@ const FILES = [
 ];
 
 const { version } = JSON.parse(readFileSync("manifest.json", "utf8"));
-const out = `cookie-token-retriever-${version}.zip`;
+const OUT_DIR = "releases";
+const out = join(OUT_DIR, `cookie-token-retriever-${version}.zip`);
 
+mkdirSync(OUT_DIR, { recursive: true });
 rmSync(out, { force: true });
 execFileSync("zip", ["-qr", out, ...FILES, "-x", "*.DS_Store"], { stdio: "inherit" });
 
