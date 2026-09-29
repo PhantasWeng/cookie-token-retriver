@@ -1,6 +1,14 @@
-# Cookie Token Retriever
+<p align="center">
+  <img src="icons/icon128.png" alt="Cookie Token Retriever icon" width="128" height="128" />
+</p>
+
+<h1 align="center">Cookie Token Retriever</h1>
+
+<p align="center">
 
 [English](README.md) | **繁體中文**
+
+</p>
 
 一個 Chrome 外掛：進入任何網站時，自動列出該站的 cookie，並讓你一鍵複製指定的
 cookie / token（例如登入用的 `access_token`、`session`）。因為是用擴充功能的

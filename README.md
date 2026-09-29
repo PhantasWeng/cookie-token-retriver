@@ -1,6 +1,14 @@
-# Cookie Token Retriever
+<p align="center">
+  <img src="icons/icon128.png" alt="Cookie Token Retriever icon" width="128" height="128" />
+</p>
+
+<h1 align="center">Cookie Token Retriever</h1>
+
+<p align="center">
 
 **English** | [繁體中文](README.zh-TW.md)
+
+</p>
 
 A Chrome extension that lists the cookies of any site you visit and lets you copy a
 specific cookie / token (e.g. a login `access_token` or `session`) in one click. Because it
